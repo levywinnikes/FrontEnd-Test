@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0px;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #95b7e9 ;
+    
+}
+
+#table-card-body {
+  
+    margin-top: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-bottom: 15px;
+  
+  }
+#action-button {
+    margin-left: 8px;
+  }
+  
