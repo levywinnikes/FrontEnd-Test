@@ -32,7 +32,6 @@ Reactstrap is the visual component framework
 
 * Author: André Levy S. Winnikes
 	* levy.winnikes@gmail.com
-	* phone +55 41 99235 6724
 	* [Linkedin](https://www.linkedin.com/in/andre-winnikes-5a511b88)
 	
 Made in NodeJS 
