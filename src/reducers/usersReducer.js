@@ -1,10 +1,24 @@
+
+
 const INITIAL_STATE = {
-    list: []
+    value: '',
+    dados: [],
+    users: [],
+    list: [],
+
 }
 
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case 'SEARCH': {
+            
+            
+  
+
+            return { ...state};
+        }
         case 'USERS_LISTED':
+
             return {
                 ...state, list: action.payload.data
             }

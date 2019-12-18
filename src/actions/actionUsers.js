@@ -1,11 +1,15 @@
 import axios from 'axios';
+export const SEARCH = 'SEARCH';
 
 
-export const filterUser = (filter) => {
+export const search = (value) => {
+    const users = axios.get('./users.json')
+
     return {
-        type: 'USERS_FILTER',
-        filter,
-    }
+        type: SEARCH,
+        payload: value,
+        users
+    };
 }
 
 export const listUsers = () => {
@@ -25,14 +29,15 @@ export const removeUser = (userListUpdated) => {
 }
 
 export const showUser = (user) => {
-    if(user == null){
-      var defaultObject = {
+    if (user == null) {
+        var defaultObject = {
             id: null,
             firstName: "",
             lastName: "",
             age: null,
-            description: "" }
-      user = defaultObject
+            description: ""
+        }
+        user = defaultObject
     }
 
     const request = user;
@@ -41,10 +46,10 @@ export const showUser = (user) => {
         type: 'USER_SHOW',
         payload: request,
     }
-    
+
 
 
 
 }
-  
+
 

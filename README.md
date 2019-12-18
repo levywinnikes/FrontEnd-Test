@@ -1,68 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![logo](https://www.cinq.com.br/wp-content/uploads/2019/05/cropped-MARCA-CINQ.png)
 
-## Available Scripts
+### Candidate: Andre Levy Scarpim Winnikes ###
 
-In the project directory, you can run:
+* This is the front-end test project for the sample [Users application](https://github.com/cinqtechnologies/front-end-react-test)
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### How do I get set up? ###
+Make sure you have [NodeJS](https://nodejs.org/en/download/) installed. It includes NPM.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. download or clone the repository,
+2. Open the command prompt (or PowerShell) into the download repo. folder.
+3. `npm install`
+4. `npm run start`
 
-### `yarn test`
+## Chrome browser will open and the application will be ready.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `yarn build`
+* List the users
+* Delete user 
+* Delete selected users
+    * The button named "Delete selected" is disable when no user is selected
+* Show user datail
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Redux is being used in all transaction
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Reactstrap is the visual component framework
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## About
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* Author: André Levy S. Winnikes
+	* levy.winnikes@gmail.com
+	* phone +55 41 99235 6724
+	* [Linkedin](https://www.linkedin.com/in/andre-winnikes-5a511b88)
+	
+Made in NodeJS 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

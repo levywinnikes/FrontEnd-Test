@@ -3,7 +3,7 @@ import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader,
 import { connect } from "react-redux"
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
-import { listUsers, removeUser, showUser } from '../../actions/actionUsers'
+import { listUsers, removeUser, showUser, search } from '../../actions/actionUsers'
 
 
 
@@ -17,6 +17,9 @@ class Users extends Component {
 
     componentWillMount() {
         this.props.listUsers()
+     
+
+   
 
     }
 
@@ -106,6 +109,7 @@ class Users extends Component {
     }
 
     render() {
+        const {search, value, works} = this.props;
         return (
             <div>
                 <Col md='12'>
@@ -114,7 +118,7 @@ class Users extends Component {
                     <Card>
                         <CardHeader>
                             <Label>Filter by name</Label>
-                            <Input type="text" onChange = {(e) =>this.filter(e)}>
+                            <Input type="text" onChange = {(e) =>search(e) }  value = {value}>
                             </Input>
                         </CardHeader>
 
@@ -145,7 +149,7 @@ class Users extends Component {
                             </thead>
                             <tbody>
                                 {this.props.users.map((user, index) =>
-                                    <tr>
+                                    <tr key = {user.id}>
                                         <td>
                                             <Input type="checkbox" name="checkbox" id={user.id} onChange={(e) => this.toggleCheckBox(e, user.id)} ></Input>
                                         </td>
@@ -178,14 +182,16 @@ class Users extends Component {
 const mapStateToProps = (state) => {
 
     return {
-        users: state.users.list
+        users: state.users.list,
+        value: state.value,
+    
     }
 
 
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ listUsers, removeUser, showUser }, dispatch)
+    return bindActionCreators({ listUsers, removeUser, showUser, search }, dispatch)
 }
 
 
