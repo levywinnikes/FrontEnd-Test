@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Form, Table, CardFooter } from 'reactstrap';
+import { Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Table, CardFooter } from 'reactstrap';
 import { connect } from "react-redux"
-import { Link } from 'react-router-dom';
+import exportFromJSON from 'export-from-json'
 import { bindActionCreators } from 'redux'
 import { listUsers, removeUser, showUser, search } from '../../actions/actionUsers'
 import ReactResizeDetector from 'react-resize-detector';
@@ -95,6 +95,26 @@ class Users extends Component {
 
     }
 
+    downloadSelected = () => {
+        let data = []
+        const fileName = 'users'
+        const exportType = 'json'
+
+        for (var i = 0; i < this.state.itensChecked.length; i++) {
+            let index = this.props.users.find(x => x.id === this.state.itensChecked[i])
+            data.push(index)
+
+            console.log(data[i])
+
+        }
+
+        this.unSelectAll()
+
+
+        exportFromJSON({ data, fileName, exportType })
+
+    }
+
     unSelectAll = () => {
         var items = document.getElementsByName('checkbox');
         for (var i = 0; i < items.length; i++) {
@@ -161,7 +181,7 @@ class Users extends Component {
                                                                  </Button>
                                                             </Col>
                                                             <Col xs="12">
-                                                                <Button className="btn btn-primary btn-lg btn-block mb-1">
+                                                                <Button className="btn btn-primary btn-lg btn-block mb-1" onClick={this.downloadSelected} disabled={!this.state.itensChecked.length}>
                                                                     Download
                                                                  </Button>
                                                             </Col>
@@ -176,8 +196,8 @@ class Users extends Component {
                                                                             <h5>{user.firstName} {user.lastName}</h5>
                                                                         </CardHeader>
                                                                         <CardBody>
-                                                                            <p>{user.age}</p>
-                                                                            <p>{user.description}</p>
+                                                                            <p><b>Age: </b> {user.age}</p>
+                                                                            <p><b>description: </b>{user.description}</p>
                                                                         </CardBody>
                                                                         <CardFooter>
                                                                             <Input className="ml-1" type="checkbox" name="checkbox" id={user.id} onChange={(e) => this.toggleCheckBox(e, user.id)} ></Input>
@@ -216,23 +236,23 @@ class Users extends Component {
                                                                 </Row>
                                                             </Col>
                                                             <Col xs="12">
-                                                            <Row className = "mb-1">
-                                                                <Col xs="2">
+                                                                <Row className="mb-1">
+                                                                    <Col xs="2">
 
-                                                                    <Input type="text" onChange={(e) => search(e)} value={value}>
-                                                                    </Input>
-                                                                </Col>
-                                                                <Col xs="2">
-                                                                    <Button onClick={this.deleteSelected} disabled={!this.state.itensChecked.length} >
-                                                                        Delete selected
-                                                     </Button>
-                                                                </Col>
-                                                                <Col xs="2">
-                                                                    <Button>
-                                                                        Download
-                                                     </Button>
-                                                                </Col>
-                                                            </Row>
+                                                                        <Input type="text" onChange={(e) => search(e)} value={value}>
+                                                                        </Input>
+                                                                    </Col>
+                                                                    <Col xs="2">
+                                                                        <Button onClick={this.deleteSelected} disabled={!this.state.itensChecked.length} >
+                                                                            Delete selected
+                                                            </Button>
+                                                                    </Col>
+                                                                    <Col xs="2">
+                                                                        <Button onClick={this.downloadSelected} disabled={!this.state.itensChecked.length}>
+                                                                            Download
+                                                                     </Button>
+                                                                    </Col>
+                                                                </Row>
                                                             </Col>
 
 
@@ -265,8 +285,8 @@ class Users extends Component {
                                                                             <Button className="btn-success" onClick={() => this.showUser(user)}  >
                                                                                 Show
                                                                          </Button>
-                                                                            
-                                                                        <Button color="danger ml-1" onClick={() => this.deleteUser(user)}  >
+
+                                                                            <Button color="danger ml-1" onClick={() => this.deleteUser(user)}  >
                                                                                 Delete
                                                                          </Button>
                                                                         </td>
