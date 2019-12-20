@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Form, Table } from 'reactstrap';
+import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Form, Table, CardFooter } from 'reactstrap';
 import { connect } from "react-redux"
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
 import { listUsers, removeUser, showUser, search } from '../../actions/actionUsers'
+import ReactResizeDetector from 'react-resize-detector';
 
 
 
@@ -12,18 +13,37 @@ class Users extends Component {
     state = {
         itensChecked: [],
         users: [],
+        smallSize: false
 
     }
 
     componentWillMount() {
         this.props.listUsers()
-     
-
-   
+        this.resize()
 
     }
 
-    filter = (event) =>   {
+    componentWillUnmount() {
+        this.resize()
+
+    }
+
+
+
+    resize = () => {
+        if (window.innerWidth <= 1024) {
+            this.setState({
+                smallSize: true
+            })
+        }
+        else {
+            this.setState({
+                smallSize: false
+            })
+        }
+    }
+
+    filter = (event) => {
         this.props.users.filter((user) => {
             return user.name == event.target.value
         });
@@ -39,6 +59,9 @@ class Users extends Component {
         this.props.removeUser(userListUpdated)
 
     }
+
+
+
 
     showUser = (user) => {
         this.props.showUser(user)
@@ -109,69 +132,161 @@ class Users extends Component {
     }
 
     render() {
-        const {search, value, works} = this.props;
+        const { search, value, works } = this.props;
         return (
             <div>
-                <Col md='12'>
-
-
+                <Col xs='12'>
                     <Card>
-                        <CardHeader>
-                            <Label>Filter by name</Label>
-                            <Input type="text" onChange = {(e) =>search(e) }  value = {value}>
-                            </Input>
-                        </CardHeader>
+                        <Row>
+                            <Col xs="12" >
+                                <CardBody>
+                                    <Row>
 
-                        <CardBody>
+                                    </Row>
 
-                     
+                                    <Row>
+                                        <Col xs="12">
+                                            {this.state.smallSize === true ? (
+                                                <Row>
+                                                    <Col xs="12">
+                                                        <Row>
+                                                            <Col xs="12">
+                                                                <Label>Filter by name</Label>
+                                                                <Input type="text" onChange={(e) => search(e)} value={value} className="mb-1">
+                                                                </Input>
+                                                            </Col>
+                                                            <Col xs="12">
+                                                                <Button onClick={this.deleteSelected} disabled={!this.state.itensChecked.length} className="btn btn-danger btn-lg btn-block mb-1" >
+                                                                    Delete selected
+                                                                 </Button>
+                                                            </Col>
+                                                            <Col xs="12">
+                                                                <Button className="btn btn-primary btn-lg btn-block mb-1">
+                                                                    Download
+                                                                 </Button>
+                                                            </Col>
 
-                        <Button onClick={this.deleteSelected} disabled={!this.state.itensChecked.length} >
-                            Delete selected
-                </Button>
+                                                        </Row>
+                                                        <Row>
+                                                            {this.props.users.map((user, index) =>
+                                                                <Col sm="6" md="4" lg="3" className="mb-1 mt-1">
 
-                        <Button>
-                            Download
-                </Button>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>
+                                                                    <Card className="d-flex align-items-stretch">
+                                                                        <CardHeader>
+                                                                            <h5>{user.firstName} {user.lastName}</h5>
+                                                                        </CardHeader>
+                                                                        <CardBody>
+                                                                            <p>{user.age}</p>
+                                                                            <p>{user.description}</p>
+                                                                        </CardBody>
+                                                                        <CardFooter>
+                                                                            <Input className="ml-1" type="checkbox" name="checkbox" id={user.id} onChange={(e) => this.toggleCheckBox(e, user.id)} ></Input>
+                                                                            <Button className="btn-success ml-4" onClick={() => this.showUser(user)}  >
+                                                                                Show
+                                                                            </Button>
 
-                                    </th>
-                                    <th>
-                                        Name
-                    </th>
-                                    <th>
-                                        Actions
-                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.props.users.map((user, index) =>
-                                    <tr key = {user.id}>
-                                        <td>
-                                            <Input type="checkbox" name="checkbox" id={user.id} onChange={(e) => this.toggleCheckBox(e, user.id)} ></Input>
-                                        </td>
-                                        <td>
-                                            {`${user.firstName} ${user.lastName}`}
-                                        </td>
-                                        <td>
-                                            <Button class = "btn-success" onClick={() => this.showUser(user)}  >
-                                                Show
-                                </Button>
-                                            /
-                                <Button color = "danger" onClick={() => this.deleteUser(user)}  >
-                                                Delete
-                                </Button>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </Table>
-                        </CardBody>
-                    </Card>
-                </Col>
+                                                                            <Button className="ml-1" color="danger" onClick={() => this.deleteUser(user)}  >
+                                                                                Delete
+                                                                            </Button>
+
+                                                                        </CardFooter>
+
+
+                                                                    </Card>
+                                                                </Col>
+                                                            )}
+                                                        </Row>
+                                                    </Col>
+                                                </Row>
+
+                                            ) : (
+                                                    <Col xs="12">
+                                                        <Row>
+                                                            <Col xs="12">
+                                                                <Row>
+
+                                                                    <Col xs="2">
+                                                                        <Label>Filter by name</Label>
+                                                                    </Col>
+                                                                    <Col xs="2">
+
+                                                                    </Col>
+                                                                    <Col xs="2">
+                                                                    </Col>
+                                                                </Row>
+                                                            </Col>
+                                                            <Col xs="12">
+                                                            <Row className = "mb-1">
+                                                                <Col xs="2">
+
+                                                                    <Input type="text" onChange={(e) => search(e)} value={value}>
+                                                                    </Input>
+                                                                </Col>
+                                                                <Col xs="2">
+                                                                    <Button onClick={this.deleteSelected} disabled={!this.state.itensChecked.length} >
+                                                                        Delete selected
+                                                     </Button>
+                                                                </Col>
+                                                                <Col xs="2">
+                                                                    <Button>
+                                                                        Download
+                                                     </Button>
+                                                                </Col>
+                                                            </Row>
+                                                            </Col>
+
+
+                                                        </Row>
+                                                        <Table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+
+                                                                    </th>
+                                                                    <th>
+                                                                        Name
+                                                                    </th>
+                                                                    <th>
+                                                                        Actions
+                                                                     </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.props.users.map((user, index) =>
+                                                                    <tr key={user.id}>
+                                                                        <td>
+
+                                                                            <Input type="checkbox" name="checkbox" id={user.id} onChange={(e) => this.toggleCheckBox(e, user.id)} ></Input>
+                                                                        </td>
+                                                                        <td>
+                                                                            {`${user.firstName} ${user.lastName}`}
+                                                                        </td>
+                                                                        <td>
+                                                                            <Button className="btn-success" onClick={() => this.showUser(user)}  >
+                                                                                Show
+                                                                         </Button>
+                                                                            
+                                                                        <Button color="danger ml-1" onClick={() => this.deleteUser(user)}  >
+                                                                                Delete
+                                                                         </Button>
+                                                                        </td>
+                                                                    </tr>
+                                                                )}
+                                                            </tbody>
+                                                        </Table>
+                                                    </Col>
+                                                )
+                                            }
+                                        </Col>
+                                    </Row>
+
+
+                                </CardBody>
+                            </Col>
+                        </Row>
+                    </Card >
+                </Col >
+                <ReactResizeDetector handleWidth handleHeight onResize={this.resize} />
             </div >
         )
     }
@@ -184,7 +299,7 @@ const mapStateToProps = (state) => {
     return {
         users: state.users.list,
         value: state.value,
-    
+
     }
 
 

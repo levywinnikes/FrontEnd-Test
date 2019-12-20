@@ -12,9 +12,6 @@ export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'SEARCH': {
             
-            
-  
-
             return { ...state};
         }
         case 'USERS_LISTED':
