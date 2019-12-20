@@ -7,12 +7,19 @@ import { showUser, listUsers } from '../../actions/actionUsers'
 
 class Show extends Component {
 
-    componentWillMount() {
+    cancelEdit = () => {
+        if (window.confirm(`Do you really wants cancel ?`)) {
+            this.props.history.push("/")
+        }
+    }
 
-
+    saveEdit = () => {
+        this.props.history.push("/")
     }
 
     render() {
+
+
         return (
             <div>
                 <Col md="12">
@@ -24,23 +31,28 @@ class Show extends Component {
                         </CardHeader>
                         <CardBody>
                             <FormGroup>
-                                <Label>Nome: </Label>
-                                {`${this.props.user.firstName}  ${this.props.user.lastName}`}
+                                <Label>First name: </Label>
+                                <Input type = "text" value =  {`${this.props.user.firstName}`} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Last name: </Label>
+                                <Input type = "text" value =  {`${this.props.user.lastName}`} />
                             </FormGroup>
 
                             <FormGroup>
-                                <Label>Idade: </Label>
+                                <Label>Age: </Label>
                                 {this.props.user.age}
                             </FormGroup>
 
                             <FormGroup>
-                                <Label>Descrição: </Label>
+                                <Label>Description: </Label>
                                 {this.props.user.description}
                             </FormGroup>
                         </CardBody>
 
                         <CardFooter>
-                            <Link to="/" >Voltar</Link>
+                            <Button className = "ml-1 btn-success" onClick = {this.saveEdit}>Save</Button>
+                            <Button className = "ml-1 btn-danger" onClick = {this.cancelEdit}>Cancel</Button>
                         </CardFooter>
                     </Card>
 
