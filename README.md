@@ -19,11 +19,13 @@ Make sure you have [NodeJS](https://nodejs.org/en/download/) installed. It inclu
 
 * List the users
 * Delete user 
+* Edit user
 * Delete selected users
     * The button named "Delete selected" is disable when no user is selected
 * Show user datail
 * Responsive small screen layout
 * Download selected itens for .json
+
 
 Redux is being used in all transaction
 
