@@ -41,6 +41,8 @@ class Users extends Component {
                 smallSize: false
             })
         }
+
+        this.unSelectAll()
     }
 
     filter = (event) => {
