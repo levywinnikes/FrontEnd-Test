@@ -3,9 +3,32 @@ import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader,
 import { connect } from "react-redux"
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
-import { showUser, listUsers } from '../../actions/actionUsers'
+import { showUser, listUsers, changeUser } from '../../actions/actionUsers'
 
 class Show extends Component {
+
+    state = {
+        firstName: this.props.user.firstName,
+        lastName: this.props.user.lastName,
+    }
+
+    componentWillMount(){
+
+    }
+
+    editFistName = (event) => {
+
+        this.setState({
+            firstName: event.target.value
+        })
+
+    }
+
+    editLastName = (event) => {
+        this.setState({
+            lastName: event.target.value
+        })
+    }
 
     cancelEdit = () => {
         if (window.confirm(`Do you really wants cancel ?`)) {
@@ -14,17 +37,22 @@ class Show extends Component {
     }
 
     saveEdit = () => {
+        const user = {
+            id: this.props.user.id,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            age: this.props.user.age,
+            description: this.props.user.description
+        }
+
+        this.props.changeUser(user)
         this.props.history.push("/")
     }
 
     render() {
-
-
         return (
             <div>
                 <Col md="12">
-
-
                     <Card>
                         <CardHeader>
                             ID:  {this.props.user.id}
@@ -32,11 +60,11 @@ class Show extends Component {
                         <CardBody>
                             <FormGroup>
                                 <Label>First name: </Label>
-                                <Input type = "text" value =  {`${this.props.user.firstName}`} />
+                                <Input type = "text" value =  {`${this.state.firstName}`} onChange = {this.editFistName} />
                             </FormGroup>
                             <FormGroup>
                                 <Label>Last name: </Label>
-                                <Input type = "text" value =  {`${this.props.user.lastName}`} />
+                                <Input type = "text" value =  {`${this.state.lastName}`} onChange = {this.editLastName} />
                             </FormGroup>
 
                             <FormGroup>
@@ -76,7 +104,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ listUsers, showUser }, dispatch)
+    return bindActionCreators({ listUsers, showUser, changeUser }, dispatch)
 }
 
 

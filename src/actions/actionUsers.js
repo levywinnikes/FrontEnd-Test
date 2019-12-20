@@ -12,8 +12,27 @@ export const search = (value) => {
     };
 }
 
-export const listUsers = () => {
-    const request = axios.get('./users.json')
+export const changeUser = (user) => {
+    return {
+        type: 'USER_CHANGE',
+        payload: user
+
+    }
+}
+
+ export const listUsers = async (user) => {
+    const request = await axios.get('./users.json')
+
+    
+    if(request.data.length && user != null){
+        for(var i = 0;i < request.data.length ; i++){
+            if(request.data[i].id === user.id){
+                request.data[i].firstName = user.firstName
+                request.data[i].lastName = user.lastName
+            }
+        }
+    }
+ 
     return {
         type: 'USERS_LISTED',
         payload: request
@@ -48,6 +67,7 @@ export const showUser = (user) => {
     return {
         type: 'USER_SHOW',
         payload: request,
+        
     }
 
 

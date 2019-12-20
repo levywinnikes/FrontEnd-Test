@@ -11,8 +11,8 @@ const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'SEARCH': {
-            
-            return { ...state};
+
+            return { ...state };
         }
         case 'USERS_LISTED':
 
@@ -26,6 +26,11 @@ export default function (state = INITIAL_STATE, action) {
             }
 
         case 'USER_SHOW':
+            return {
+                ...state, show: action.payload
+            }
+
+        case 'USER_CHANGE':
             return {
                 ...state, show: action.payload
             }

@@ -18,9 +18,13 @@ class Users extends Component {
     }
 
     componentWillMount() {
-        this.props.listUsers()
+        this.listUsers()
         this.resize()
 
+    }
+
+    listUsers = () => {
+        this.props.listUsers(this.props.user)
     }
 
     componentWillUnmount() {
@@ -321,7 +325,7 @@ const mapStateToProps = (state) => {
     return {
         users: state.users.list,
         value: state.value,
-
+        user: state.users.show,
     }
 
 
