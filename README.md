@@ -20,16 +20,39 @@ Make sure you have [NodeJS](https://nodejs.org/en/download/) installed. It inclu
 * List the users
 * Delete user 
 * Edit user
+	* Show user for user id params in url
 * Delete selected users
     * The button named "Delete selected" is disable when no user is selected
 * Show user datail
-* Responsive small screen layout
+* Responsive small screen layout if screen resolution is less 1024
 * Download selected itens for .json
+* UI Automated tests uses Cypress
 
 
 Redux is being used in all transaction
 
 Reactstrap is the visual component framework
+
+
+## Cypress: install and run
+
+1. On this project terminal tap:
+npm install cypress --save-dev
+
+2. Execute cypress with command:
+.\node_modules\.bin\cypress open
+
+3. A cypress window should be open
+
+4. Click on user_edit.spec.js and wait 
+
+5. The tests should be run automatically
+
+Note: The tests needs the aplication run on port:3000 
+
+
+
+
 
 
 ## About

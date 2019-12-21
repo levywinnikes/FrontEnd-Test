@@ -1,5 +1,3 @@
-
-
 const INITIAL_STATE = {
     value: '',
     dados: [],
@@ -12,7 +10,7 @@ export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'SEARCH': {
 
-            return { ...state };
+            return { ...state , list: action.payload.data };
         }
         case 'USERS_LISTED':
 

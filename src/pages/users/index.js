@@ -3,36 +3,45 @@ import { Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Table, Card
 import { connect } from "react-redux"
 import exportFromJSON from 'export-from-json'
 import { bindActionCreators } from 'redux'
-import { listUsers, removeUser, showUser, search } from '../../actions/actionUsers'
+import { listUsers, removeUser, showUser, searchUser } from '../../actions/actionUsers'
 import ReactResizeDetector from 'react-resize-detector';
 
 
 
 class Users extends Component {
 
-    state = {
-        itensChecked: [],
-        users: [],
-        smallSize: false
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            itensChecked: [],
+            smallSize: false,
+            filteredUser: []
+  
+
+        }
 
     }
 
-    componentWillMount() {
-        this.listUsers()
-        this.resize()
+    componentWillMount(){
+        this.listUser()
+    }
+
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.users !== nextProps.users) {
+
+            this.setState({
+                filteredUser: nextProps.users
+            })
+
+        }
 
     }
 
-    listUsers = () => {
+    listUser = () => {
         this.props.listUsers(this.props.user)
     }
-
-    componentWillUnmount() {
-        this.resize()
-
-    }
-
-
 
     resize = () => {
         if (window.innerWidth <= 1024) {
@@ -50,9 +59,21 @@ class Users extends Component {
     }
 
     filter = (event) => {
-        this.props.users.filter((user) => {
-            return user.name == event.target.value
-        });
+ 
+        let filteredUser = this.props.users.filter((user) => {
+
+            if (user.firstName.indexOf(event.target.value) !== -1 || user.lastName.indexOf(event.target.value)){
+                return user.firstName.indexOf(event.target.value) !== -1
+            }
+    
+
+        })
+
+        this.setState({
+            filteredUser
+        })
+
+        this.forceUpdate();
 
     }
 
@@ -67,11 +88,8 @@ class Users extends Component {
     }
 
 
-
-
     showUser = (user) => {
-        this.props.showUser(user)
-        this.props.history.push("/Show")
+        this.props.history.push(`/Show/${user.id}`)
     }
 
 
@@ -82,22 +100,20 @@ class Users extends Component {
         for (var i = 0; i < this.state.itensChecked.length; i++) {
             let index = this.props.users.indexOf(this.props.users.find(x => x.id === this.state.itensChecked[i]))
 
-
-
             if (index > -1) {
                 userListUpdated.splice(index, 1)
-
             }
-
         }
+
         this.props.removeUser(userListUpdated)
+        this.setState({
+            filteredUser: userListUpdated
+        })
 
 
         this.unSelectAll()
 
-
         this.forceUpdate();
-
 
     }
 
@@ -158,7 +174,7 @@ class Users extends Component {
     }
 
     render() {
-        const { search, value, works } = this.props;
+        const { value } = this.props;
         return (
             <div>
                 <Col xs='12'>
@@ -178,7 +194,7 @@ class Users extends Component {
                                                         <Row>
                                                             <Col xs="12">
                                                                 <Label>Filter by name</Label>
-                                                                <Input type="text" onChange={(e) => search(e)} value={value} className="mb-1">
+                                                                <Input type="text" onChange={(e) => this.filter(e)} value={value} className="mb-1">
                                                                 </Input>
                                                             </Col>
                                                             <Col xs="12">
@@ -194,7 +210,7 @@ class Users extends Component {
 
                                                         </Row>
                                                         <Row>
-                                                            {this.props.users.map((user, index) =>
+                                                            {this.state.filteredUser.map((user) =>
                                                                 <Col sm="6" md="4" lg="3" className="mb-1 mt-1">
 
                                                                     <Card className="d-flex align-items-stretch">
@@ -245,7 +261,7 @@ class Users extends Component {
                                                                 <Row className="mb-1">
                                                                     <Col xs="2">
 
-                                                                        <Input type="text" onChange={(e) => search(e)} value={value}>
+                                                                        <Input type="text" onChange={(e) => this.filter(e)} value={value}>
                                                                         </Input>
                                                                     </Col>
                                                                     <Col xs="2">
@@ -278,7 +294,7 @@ class Users extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.props.users.map((user, index) =>
+                                                            {this.state.filteredUser.map((user) =>
                                                                     <tr key={user.id}>
                                                                         <td>
 
@@ -332,7 +348,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ listUsers, removeUser, showUser, search }, dispatch)
+    return bindActionCreators({ listUsers, removeUser, showUser, searchUser }, dispatch)
 }
 
 

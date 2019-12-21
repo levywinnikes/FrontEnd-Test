@@ -1,16 +1,6 @@
 import axios from 'axios';
-export const SEARCH = 'SEARCH';
 
 
-export const search = (value) => {
-    const users = axios.get('./users.json')
-
-    return {
-        type: SEARCH,
-        payload: value,
-        users
-    };
-}
 
 export const changeUser = (user) => {
     return {
@@ -39,6 +29,15 @@ export const changeUser = (user) => {
     }
 }
 
+export const searchUser = async (filteredUser) => {
+    const request = await axios.get('./users.json')
+
+    return {
+        type: 'SEARCH',
+        payload: filteredUser
+    }
+}
+
 export const removeUser = (userListUpdated) => {
     const request = userListUpdated;
     return {
@@ -48,31 +47,45 @@ export const removeUser = (userListUpdated) => {
 }
 
 
+export const showUser = async (userId) => {
+    console.log("cheguei aqui" + userId)
+    const request = await axios.get('../users.json')
 
-
-export const showUser = (user) => {
-    if (user == null) {
-        var defaultObject = {
-            id: null,
-            firstName: "",
-            lastName: "",
-            age: null,
-            description: ""
-        }
-        user = defaultObject
+    const findUser = {
+        id: "",
+        firstName: "",
+        lastName: "",
+        age: "",
+        description: "",
     }
 
-    const request = user;
+
+    if(request.data.length && userId != null){
+        for(var i = 0;i < request.data.length ; i++){
+            console.log("ID EH " + request.data[i].id +  userId)
+
+            if(request.data[i].id == userId){
+                console.log("achei")
+
+                findUser.id = request.data[i].id
+                findUser.firstName = request.data[i].firstName
+                findUser.lastName = request.data[i].lastName
+                findUser.age = request.data[i].age
+                findUser.description = request.data[i].description
+               
+                break
+            }
+        }
+    }
+
+    console.log(findUser)
+
 
     return {
         type: 'USER_SHOW',
-        payload: request,
+        payload: findUser,
         
     }
-
-
-
-
 }
 
 

@@ -1,20 +1,48 @@
 import React, { Component } from 'react'
-import { Fade, ButtonGroup, FormGroup, Label, Input, Col, Row, Card, CardHeader, CardBody, Button, Form, Table, CardFooter } from 'reactstrap';
+import { FormGroup, Label, Input, Col, Card, CardHeader, CardBody, Button, CardFooter } from 'reactstrap';
 import { connect } from "react-redux"
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
-import { showUser, listUsers, changeUser } from '../../actions/actionUsers'
+import { showUser, listUsers, changeUser, searchUser } from '../../actions/actionUsers'
 
 class Show extends Component {
 
-    state = {
-        firstName: this.props.user.firstName,
-        lastName: this.props.user.lastName,
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: "",
+            firstName: "",
+            lastName: "",
+            age: "",
+            description: "",
+        }
+
     }
 
-    componentWillMount(){
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.user !== nextProps.user) {
+
+            this.setState({
+                id: nextProps.user.id,
+                firstName: nextProps.user.firstName,
+                lastName: nextProps.user.lastName,
+                age: nextProps.user.age,
+                description: nextProps.user.description,
+            })
+        }
     }
+
+
+    componentWillMount() {
+        this.showUser()
+    }
+
+
+    showUser = () => {
+        this.props.showUser(this.props.match.params.id)
+    }
+
 
     editFistName = (event) => {
 
@@ -55,32 +83,32 @@ class Show extends Component {
                 <Col md="12">
                     <Card>
                         <CardHeader>
-                            ID:  {this.props.user.id}
+                            ID:  {this.state.id}
                         </CardHeader>
                         <CardBody>
                             <FormGroup>
                                 <Label>First name: </Label>
-                                <Input type = "text" value =  {`${this.state.firstName}`} onChange = {this.editFistName} />
+                                <Input type="text" value={`${this.state.firstName}`} onChange={this.editFistName} name = "firtName-form"/>
                             </FormGroup>
                             <FormGroup>
                                 <Label>Last name: </Label>
-                                <Input type = "text" value =  {`${this.state.lastName}`} onChange = {this.editLastName} />
+                                <Input type="text" value={`${this.state.lastName}`} onChange={this.editLastName} name = "lastName-form" />
                             </FormGroup>
 
                             <FormGroup>
                                 <Label>Age: </Label>
-                                {this.props.user.age}
+                                {this.state.age}
                             </FormGroup>
 
                             <FormGroup>
                                 <Label>Description: </Label>
-                                {this.props.user.description}
+                                {this.state.description}
                             </FormGroup>
                         </CardBody>
 
                         <CardFooter>
-                            <Button className = "ml-1 btn-success" onClick = {this.saveEdit}>Save</Button>
-                            <Button className = "ml-1 btn-danger" onClick = {this.cancelEdit}>Cancel</Button>
+                            <Button className="ml-1 btn-success" onClick={this.saveEdit}>Save</Button>
+                            <Button className="ml-1 btn-danger" onClick={this.cancelEdit}>Cancel</Button>
                         </CardFooter>
                     </Card>
 
@@ -104,7 +132,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ listUsers, showUser, changeUser }, dispatch)
+    return bindActionCreators({ listUsers, showUser, changeUser, searchUser }, dispatch)
 }
 
 
